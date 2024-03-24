@@ -4,10 +4,10 @@ import './App.css';
 function App() {
   const [message, setMessage] = useState('Hi 👋');
 
-  function onClick() {
-    fetch(import.meta.env.VITE_APP_API_URL)
-      .then((response) => response.text())
-      .then(setMessage);
+  async function onClick() {
+    const response = await fetch(import.meta.env.VITE_APP_API_URL);
+    const json = await response.json();
+    setMessage(json.message);
   }
 
   return (
