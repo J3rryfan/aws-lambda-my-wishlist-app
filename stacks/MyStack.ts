@@ -5,6 +5,12 @@ export function API({ stack }: StackContext) {
     routes: {
       'GET /': 'packages/functions/src/lambda.handler',
       'GET /wishlist': 'packages/functions/src/wishlist.handler',
+      'GET /csharp': {
+        function: {
+          handler: 'packages/CSharp/WishlistApp',
+          runtime: 'container',
+        },
+      },
     },
   });
 
