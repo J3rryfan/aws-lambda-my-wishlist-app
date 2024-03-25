@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import './App.css';
 
 function App() {
   const [message, setMessage] = useState('Hi 👋');
@@ -12,6 +11,9 @@ function App() {
 
   return (
     <div className='App'>
+      <h1 className='text-3xl font-bold flex items-center justify-center'>
+        Hello world
+      </h1>
       <div className='card'>
         <button onClick={onClick}>
           Message is "<i>{message}</i>"
