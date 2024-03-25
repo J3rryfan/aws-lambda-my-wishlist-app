@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Button } from '@/components/ui/button';
 
 function App() {
   const [message, setMessage] = useState('Hi 👋');
@@ -15,9 +16,9 @@ function App() {
         Hello world
       </h1>
       <div className='card'>
-        <button onClick={onClick}>
+        <Button onClick={onClick}>
           Message is "<i>{message}</i>"
-        </button>
+        </Button>
       </div>
     </div>
   );
