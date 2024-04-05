@@ -13,9 +13,9 @@ function App() {
   return (
     <div className='App'>
       <h1 className='text-3xl font-bold flex items-center justify-center'>
-        Hello world
+        Ai Blogger
       </h1>
-      <div className='card'>
+      <div className='flex items-center justify-center h-dvh'>
         <Button onClick={onClick}>
           Message is "<i>{message}</i>"
         </Button>
