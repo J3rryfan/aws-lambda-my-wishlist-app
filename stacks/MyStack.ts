@@ -1,10 +1,10 @@
-import { StackContext, Api, StaticSite } from 'sst/constructs';
+import { StackContext, Api, StaticSite, Bucket } from 'sst/constructs';
 
 export function API({ stack }: StackContext) {
   const api = new Api(stack, 'api', {
     routes: {
       'GET /': 'packages/functions/src/lambda.handler',
-      'GET /wishlist': 'packages/functions/src/wishlist.handler',
+      'GET /blogs': 'packages/functions/src/blogs.handler',
       'GET /csharp': {
         function: {
           handler: 'packages/CSharp/WishlistApp',
