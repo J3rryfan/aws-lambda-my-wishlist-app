@@ -11,12 +11,24 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as AboutImport } from './routes/about'
 import { Route as AuthenticatedIndexImport } from './routes/_authenticated/index'
+import { Route as AuthenticatedAllBlogsImport } from './routes/_authenticated/all-blogs'
 
 // Create/Update Routes
 
+const AboutRoute = AboutImport.update({
+  path: '/about',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const AuthenticatedIndexRoute = AuthenticatedIndexImport.update({
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AuthenticatedAllBlogsRoute = AuthenticatedAllBlogsImport.update({
+  path: '/all-blogs',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -24,6 +36,14 @@ const AuthenticatedIndexRoute = AuthenticatedIndexImport.update({
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/about': {
+      preLoaderRoute: typeof AboutImport
+      parentRoute: typeof rootRoute
+    }
+    '/_authenticated/all-blogs': {
+      preLoaderRoute: typeof AuthenticatedAllBlogsImport
+      parentRoute: typeof rootRoute
+    }
     '/_authenticated/': {
       preLoaderRoute: typeof AuthenticatedIndexImport
       parentRoute: typeof rootRoute
@@ -33,6 +53,10 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
-export const routeTree = rootRoute.addChildren([AuthenticatedIndexRoute])
+export const routeTree = rootRoute.addChildren([
+  AboutRoute,
+  AuthenticatedAllBlogsRoute,
+  AuthenticatedIndexRoute,
+])
 
 /* prettier-ignore-end */
