@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './routes/_authenticated/index.tsx';
 import './index.css';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -17,6 +16,7 @@ const router = createRouter({
   },
 });
 
+// Register things for typesafety
 declare module '@tanstack/react-router' {
   interface Register {
     router: typeof router;
