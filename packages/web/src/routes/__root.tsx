@@ -17,20 +17,28 @@ function RootLayout() {
     <>
       <div className='flex items-center justify-between py-2 max-w-2xl mx-auto'>
         <Link to='/' className='text-2xl'>
-          Home
+          Ai Blogger
         </Link>
 
         <div className='flex gap-x-4'>
           <Link
-            href='/all-blogs'
+            to='/all-blogs'
             className='[&.active]:text-foreground text-muted-foreground hover:text-foreground transition-colors'
           >
             All Blogs
           </Link>
+          <Link
+            to='/about'
+            className='[&.active]:text-foreground text-muted-foreground hover:text-foreground transition-colors'
+          >
+            About
+          </Link>
         </div>
+      </div>
+      <hr />
+      <div className='bg-background text-foreground flex flex-col m-10 gap-y-10 max-w-2xl mx-auto'>
+        <Outlet />
       </div>
     </>
   );
 }
-
-export default Route;
