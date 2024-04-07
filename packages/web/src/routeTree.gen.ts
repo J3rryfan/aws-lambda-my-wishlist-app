@@ -12,7 +12,9 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as AboutImport } from './routes/about'
+import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as AuthenticatedIndexImport } from './routes/_authenticated/index'
+import { Route as AuthenticatedProfileImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedCreateBlogImport } from './routes/_authenticated/create-blog'
 import { Route as AuthenticatedAllBlogsImport } from './routes/_authenticated/all-blogs'
 
@@ -23,40 +25,58 @@ const AboutRoute = AboutImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AuthenticatedRoute = AuthenticatedImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const AuthenticatedIndexRoute = AuthenticatedIndexImport.update({
   path: '/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+
+const AuthenticatedProfileRoute = AuthenticatedProfileImport.update({
+  path: '/profile',
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
 
 const AuthenticatedCreateBlogRoute = AuthenticatedCreateBlogImport.update({
   path: '/create-blog',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
 
 const AuthenticatedAllBlogsRoute = AuthenticatedAllBlogsImport.update({
   path: '/all-blogs',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/_authenticated': {
+      preLoaderRoute: typeof AuthenticatedImport
+      parentRoute: typeof rootRoute
+    }
     '/about': {
       preLoaderRoute: typeof AboutImport
       parentRoute: typeof rootRoute
     }
     '/_authenticated/all-blogs': {
       preLoaderRoute: typeof AuthenticatedAllBlogsImport
-      parentRoute: typeof rootRoute
+      parentRoute: typeof AuthenticatedImport
     }
     '/_authenticated/create-blog': {
       preLoaderRoute: typeof AuthenticatedCreateBlogImport
-      parentRoute: typeof rootRoute
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/profile': {
+      preLoaderRoute: typeof AuthenticatedProfileImport
+      parentRoute: typeof AuthenticatedImport
     }
     '/_authenticated/': {
       preLoaderRoute: typeof AuthenticatedIndexImport
-      parentRoute: typeof rootRoute
+      parentRoute: typeof AuthenticatedImport
     }
   }
 }
@@ -64,10 +84,13 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren([
+  AuthenticatedRoute.addChildren([
+    AuthenticatedAllBlogsRoute,
+    AuthenticatedCreateBlogRoute,
+    AuthenticatedProfileRoute,
+    AuthenticatedIndexRoute,
+  ]),
   AboutRoute,
-  AuthenticatedAllBlogsRoute,
-  AuthenticatedCreateBlogRoute,
-  AuthenticatedIndexRoute,
 ])
 
 /* prettier-ignore-end */
