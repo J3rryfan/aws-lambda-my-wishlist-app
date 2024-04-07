@@ -13,6 +13,7 @@ type Blog = {
   id: number;
   title: string;
   description: string;
+  imageUrl?: string;
 };
 
 function HomePage() {
@@ -42,8 +43,6 @@ function HomePage() {
     queryFn: getAllBlogs,
   });
 
-  console.log(data);
-
   return (
     <>
       <h1 className='text-3xl font-bold'>All Wishlist</h1>
@@ -56,6 +55,7 @@ function HomePage() {
               <CardContent className='p-0'>
                 <h1>{blog.title}</h1>
                 <p>{blog.description}</p>
+                <img src={blog.imageUrl} className='max-w-full' />
               </CardContent>
             </Card>
           ))}
