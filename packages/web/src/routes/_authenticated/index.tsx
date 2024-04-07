@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { createFileRoute } from '@tanstack/react-router';
+import { useKindeAuth } from '@kinde-oss/kinde-auth-react';
 
 import { Card, CardContent } from '@/components/ui/card';
 
@@ -15,9 +16,19 @@ type Blog = {
 };
 
 function HomePage() {
+  const { getToken } = useKindeAuth();
   // get all blogs
   async function getAllBlogs() {
-    const response = await fetch(import.meta.env.VITE_APP_API_URL + '/blogs');
+    const token = await getToken();
+    if (!token) {
+      throw new Error('No token');
+    }
+
+    const response = await fetch(import.meta.env.VITE_APP_API_URL + '/blogs', {
+      headers: {
+        Authorization: token,
+      },
+    });
 
     if (!response.ok) {
       throw new Error('Failed to get blogs');
