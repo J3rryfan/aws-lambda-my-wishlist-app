@@ -8,6 +8,7 @@ export const blogs = pgTable(
     userId: text('userId').notNull(),
     title: text('title').notNull(),
     description: text('description').notNull(),
+    imageUrl: text('image_url').notNull(),
   },
   (table) => {
     return {

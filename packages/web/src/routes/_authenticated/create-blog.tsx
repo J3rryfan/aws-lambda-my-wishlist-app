@@ -29,10 +29,16 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useCreateBlog } from '@/hooks/useCreateBlog';
+import { useState } from 'react';
 
 const formSchema = z.object({
   title: z.string().min(2).max(50),
   description: z.string().min(2).max(50),
+  image: z
+    .instanceof(FileList, {
+      message: 'Please upload a image',
+    })
+    .refine((value) => value.length > 0, 'Please upload a image'),
 });
 
 type CreateBlogFormSchema = z.infer<typeof formSchema>;
@@ -45,8 +51,13 @@ function CreateBlogForm() {
     defaultValues: {
       title: '',
       description: '',
+      image: undefined,
     },
   });
+
+  const [filePreviewURL, setFilePreviewURL] = useState<string | undefined>();
+
+  const imageRef = form.register('image');
 
   // 2. Define a submit handler.
   function onSubmit({ title, description }: CreateBlogFormSchema) {
@@ -57,6 +68,39 @@ function CreateBlogForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
+        {filePreviewURL && (
+          <img src={filePreviewURL} className='max-w-40 max-auto' />
+        )}
+        <FormField
+          control={form.control}
+          name='image'
+          render={() => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  type='file'
+                  accept='image/*'
+                  {...imageRef}
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (filePreviewURL) {
+                      URL.revokeObjectURL(filePreviewURL);
+                    }
+                    if (file) {
+                      const url = URL.createObjectURL(file);
+                      setFilePreviewURL(url);
+                    } else {
+                      setFilePreviewURL(undefined);
+                    }
+                    imageRef.onChange(e);
+                  }}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <FormField
           control={form.control}
           name='title'
