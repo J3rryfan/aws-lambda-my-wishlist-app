@@ -16,7 +16,8 @@ export const Route = createRootRouteWithContext<{
 });
 
 function RootLayout() {
-  const isAuthenticated = useKindeAuth();
+  const { isAuthenticated } = useKindeAuth();
+
   return (
     <>
       <header className='py-6'>
@@ -24,13 +25,6 @@ function RootLayout() {
           <Link to='/' className='text-2xl'>
             <Logo />
           </Link>
-
-          {/* <Link
-            to='/all-blogs'
-            className='[&.active]:text-foreground text-muted-foreground hover:text-foreground transition-colors'
-          >
-            All Blogs
-          </Link> */}
 
           <Link to='/create-blog'>Create</Link>
 
