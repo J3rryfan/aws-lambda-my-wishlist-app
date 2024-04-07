@@ -15,7 +15,7 @@ export default function Logo() {
           clipRule='evenodd'
         ></path>
       </svg>
-      <span className='font-medium'>Blogger.ai</span>
+      <span className='font-medium'>Wishlist.ai</span>
     </div>
   );
 }
