@@ -38,7 +38,7 @@ const formSchema = z.object({
 type CreateBlogFormSchema = z.infer<typeof formSchema>;
 
 function CreateBlogForm() {
-  const { createBlog, error, isCreating } = useCreateBlog();
+  const { createBlog, isCreating } = useCreateBlog();
 
   const form = useForm<CreateBlogFormSchema>({
     resolver: zodResolver(formSchema),

@@ -37,7 +37,7 @@ function HomePage() {
     return (await response.json()) as { blogs: Blog[] };
   }
 
-  const { data, error, isPending } = useQuery({
+  const { data, error } = useQuery({
     queryKey: ['getAllBlogs'],
     queryFn: getAllBlogs,
   });
