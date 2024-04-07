@@ -2,7 +2,9 @@ import { StackContext, Api, StaticSite, Bucket } from 'sst/constructs';
 
 export function API({ stack }: StackContext) {
   const audience = `api-WishlistApp-${stack.stage}`;
-  console.log(audience);
+
+  const assetsBucket = new Bucket(stack, 'assets');
+  assetsBucket.bucketName;
 
   const api = new Api(stack, 'api', {
     authorizers: {
@@ -29,6 +31,14 @@ export function API({ stack }: StackContext) {
       },
       'GET /blogs': 'packages/functions/src/blogs.handler',
       'POST /blogs': 'packages/functions/src/blogs.handler',
+      'POST /signed-url': {
+        function: {
+          environment: {
+            ASSETS_BUCKET_NAME: assetsBucket.bucketName,
+          },
+          handler: 'packages/functions/src/s3.handler',
+        },
+      },
       'GET /csharp': {
         function: {
           handler: 'packages/CSharp/WishlistApp',
@@ -37,6 +47,8 @@ export function API({ stack }: StackContext) {
       },
     },
   });
+
+  api.attachPermissionsToRoute('POST /signed-url', [assetsBucket, 'grandPut']);
 
   const web = new StaticSite(stack, 'web', {
     path: 'packages/web',

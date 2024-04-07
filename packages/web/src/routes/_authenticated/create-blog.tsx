@@ -60,9 +60,9 @@ function CreateBlogForm() {
   const imageRef = form.register('image');
 
   // 2. Define a submit handler.
-  function onSubmit({ title, description }: CreateBlogFormSchema) {
+  function onSubmit({ title, description, image }: CreateBlogFormSchema) {
     console.log({ title, description });
-    createBlog({ data: { title, description } });
+    createBlog({ data: { title, description }, image: image[0] });
   }
 
   return (
