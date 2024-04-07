@@ -5,6 +5,7 @@ import {
 } from '@tanstack/react-router';
 
 import { QueryClient } from '@tanstack/react-query';
+import Logo from '@/components/logo';
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
@@ -15,12 +16,12 @@ export const Route = createRootRouteWithContext<{
 function RootLayout() {
   return (
     <>
-      <div className='flex items-center justify-between py-2 max-w-2xl mx-auto'>
-        <Link to='/' className='text-2xl'>
-          Ai Blogger
-        </Link>
+      <header className='py-6'>
+        <div className='container flex max-w-3xl items-center justify-between'>
+          <Link to='/' className='text-2xl'>
+            <Logo />
+          </Link>
 
-        <div className='flex gap-x-4'>
           <Link
             to='/all-blogs'
             className='[&.active]:text-foreground text-muted-foreground hover:text-foreground transition-colors'
@@ -34,7 +35,8 @@ function RootLayout() {
             About
           </Link>
         </div>
-      </div>
+      </header>
+
       <hr />
       <div className='bg-background text-foreground flex flex-col m-10 gap-y-10 max-w-2xl mx-auto'>
         <Outlet />
