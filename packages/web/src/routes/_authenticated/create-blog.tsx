@@ -1,43 +1,17 @@
-import { useMutation } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_authenticated/create-blog')({
   component: CreateBlogPage,
 });
 
-type Blog = {
-  title: string;
-  description: string;
-  imageUrl?: string;
-};
-
 function CreateBlogPage() {
   return (
     <div className=''>
-      <h1 className='mb-4 text-2xl font-bold'>Create Post</h1>
+      <h1 className='mb-4 text-2xl font-bold'>Create Blog</h1>
       <CreateBlogForm />
     </div>
   );
 }
-
-// const mutation = useMutation({
-//   mutationFn: async ({ data }: { data: Blog }) => {
-//     const response = await fetch(
-//       import.meta.env.VITE_APP_API_URL + '/blogs',
-//       {
-//         method: 'POST',
-//         body: JSON.stringify({ blog: data }),
-//       }
-//     );
-
-//     if (!response.ok) {
-//       throw new Error('Failed to create blog');
-//     }
-
-//     const json = await response.json();
-//     return json;
-//   },
-// });
 
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -53,25 +27,31 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { useCreateBlog } from '@/hooks/useCreateBlog';
 
 const formSchema = z.object({
-  username: z.string().min(2).max(50),
+  title: z.string().min(2).max(50),
+  description: z.string().min(2).max(50),
 });
 
+type CreateBlogFormSchema = z.infer<typeof formSchema>;
+
 function CreateBlogForm() {
-  // 1. Define your form.
-  const form = useForm<z.infer<typeof formSchema>>({
+  const { createBlog, error, isCreating } = useCreateBlog();
+
+  const form = useForm<CreateBlogFormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: '',
+      title: '',
+      description: '',
     },
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  function onSubmit({ title, description }: CreateBlogFormSchema) {
+    console.log({ title, description });
+    createBlog({ data: { title, description } });
   }
 
   return (
@@ -79,21 +59,40 @@ function CreateBlogForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
         <FormField
           control={form.control}
-          name='username'
+          name='title'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel>Title</FormLabel>
               <FormControl>
-                <Input placeholder='shadcn' {...field} />
+                <Input placeholder='My Awesome Blog' {...field} />
               </FormControl>
               <FormDescription>
-                This is your public display name.
+                This is where you can write a title for your blog.
               </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type='submit'>Submit</Button>
+
+        <FormField
+          control={form.control}
+          name='description'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Description</FormLabel>
+              <FormControl>
+                <Textarea placeholder='Write a short description' {...field} />
+              </FormControl>
+              <FormDescription>
+                This is where you can write a short description for your blog.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type='submit' disabled={isCreating} className='w-full'>
+          Submit
+        </Button>
       </form>
     </Form>
   );

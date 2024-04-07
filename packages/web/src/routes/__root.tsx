@@ -22,12 +22,12 @@ function RootLayout() {
             <Logo />
           </Link>
 
-          <Link
+          {/* <Link
             to='/all-blogs'
             className='[&.active]:text-foreground text-muted-foreground hover:text-foreground transition-colors'
           >
             All Blogs
-          </Link>
+          </Link> */}
           <Link
             to='/about'
             className='[&.active]:text-foreground text-muted-foreground hover:text-foreground transition-colors'

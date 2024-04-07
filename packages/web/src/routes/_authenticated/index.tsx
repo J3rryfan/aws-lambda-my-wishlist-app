@@ -12,33 +12,44 @@ type Blog = {
   id: number;
   title: string;
   description: string;
-  imageUrl?: string;
-  createdAt: Date;
 };
 
 function HomePage() {
   // get all blogs
+  async function getAllBlogs() {
+    const response = await fetch(import.meta.env.VITE_APP_API_URL + '/blogs');
+
+    if (!response.ok) {
+      throw new Error('Failed to get blogs');
+    }
+
+    return (await response.json()) as { blogs: Blog[] };
+  }
+
+  const { data, error, isPending } = useQuery({
+    queryKey: ['getAllBlogs'],
+    queryFn: getAllBlogs,
+  });
+
+  console.log(data);
 
   return (
-    <section className='py-24'>
-      <p>Login to create a new blog</p>
-
-      <div className='mt-44'>
-        <h2 className='text-xl font-semibold leading-none tracking-wide'>
-          Recent Blogs
-        </h2>
-      </div>
-
-      <div className='mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2'>
-        <Card className='overflow-hidden'>
-          <CardContent className='p-0'>
-            {/* link to blog */}
-
-            <h1>Blog 1</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-          </CardContent>
-        </Card>
-      </div>
-    </section>
+    <>
+      <h1 className='text-3xl font-bold'>All Blogs</h1>
+      {error ? (
+        'An error has occurred' + error.message
+      ) : (
+        <div className='mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2'>
+          {data?.blogs.map((blog) => (
+            <Card className='overflow-hidden'>
+              <CardContent className='p-0'>
+                <h1>{blog.title}</h1>
+                <p>{blog.description}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
+    </>
   );
 }
