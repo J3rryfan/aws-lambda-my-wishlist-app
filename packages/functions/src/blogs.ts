@@ -7,8 +7,8 @@ const app = new Hono();
 
 // get all blogs
 app.get('/blogs', async (c) => {
-  const results = await db.select().from(blogsTable);
-  return c.json({ results });
+  const blogs = await db.select().from(blogsTable);
+  return c.json({ blogs });
 });
 
 // post a new blog

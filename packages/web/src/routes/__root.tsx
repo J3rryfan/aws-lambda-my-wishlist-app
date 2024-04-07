@@ -34,6 +34,7 @@ function RootLayout() {
           >
             About
           </Link>
+          <Link to='/create-blog'>Create</Link>
         </div>
       </header>
 

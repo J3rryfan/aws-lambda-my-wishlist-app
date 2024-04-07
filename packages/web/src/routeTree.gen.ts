@@ -13,6 +13,7 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as AboutImport } from './routes/about'
 import { Route as AuthenticatedIndexImport } from './routes/_authenticated/index'
+import { Route as AuthenticatedCreateBlogImport } from './routes/_authenticated/create-blog'
 import { Route as AuthenticatedAllBlogsImport } from './routes/_authenticated/all-blogs'
 
 // Create/Update Routes
@@ -24,6 +25,11 @@ const AboutRoute = AboutImport.update({
 
 const AuthenticatedIndexRoute = AuthenticatedIndexImport.update({
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AuthenticatedCreateBlogRoute = AuthenticatedCreateBlogImport.update({
+  path: '/create-blog',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -44,6 +50,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAllBlogsImport
       parentRoute: typeof rootRoute
     }
+    '/_authenticated/create-blog': {
+      preLoaderRoute: typeof AuthenticatedCreateBlogImport
+      parentRoute: typeof rootRoute
+    }
     '/_authenticated/': {
       preLoaderRoute: typeof AuthenticatedIndexImport
       parentRoute: typeof rootRoute
@@ -56,6 +66,7 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren([
   AboutRoute,
   AuthenticatedAllBlogsRoute,
+  AuthenticatedCreateBlogRoute,
   AuthenticatedIndexRoute,
 ])
 
