@@ -2,7 +2,6 @@ import { createFileRoute, Outlet } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
 
 import { useKindeAuth } from '@kinde-oss/kinde-auth-react';
-// import Logo from '@/components/logo';
 
 export function Login() {
   const { login, register } = useKindeAuth();
@@ -12,7 +11,7 @@ export function Login() {
         <div className='container flex flex-col items-center justify-center gap-4 px-4 text-center md:px-6 lg:gap-10'>
           <div className='space-y-3'>
             <h1 className='text-3xl font-bold tracking-tighter sm:text-5xl md:text-6xl'>
-              Post Your Wishlist so that you cant forget
+              Post Your Wishlist so that you can&apos;t forget
             </h1>
             <p className='mx-auto max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400'>
               Our industry-based approach provides you with the knowledge and
@@ -33,7 +32,10 @@ export function Login() {
 }
 
 const Component = () => {
-  const { isAuthenticated } = useKindeAuth();
+  const { isAuthenticated, isLoading } = useKindeAuth();
+  if (isLoading) {
+    return <div></div>;
+  }
   if (!isAuthenticated) {
     return <Login />;
   }
