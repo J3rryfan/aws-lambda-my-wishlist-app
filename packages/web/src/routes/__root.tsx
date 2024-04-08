@@ -21,21 +21,28 @@ function RootLayout() {
   return (
     <>
       <header className='py-6'>
-        <div className='container flex max-w-3xl items-center justify-between'>
+        <div className='container flex items-center justify-between'>
           <Link to='/' className='text-2xl'>
             <Logo />
           </Link>
 
-          <Link to='/create-blog'>Create</Link>
-
-          {isAuthenticated && (
+          <div className='flex items-center justify-center gap-x-8'>
             <Link
-              to='/profile'
-              className='[&.active]:text-foreground text-muted-foreground hover:text-foreground transition-colors'
+              to='/create-blog'
+              className='[&.active]:text-foreground text-muted-foreground hover:text-foreground transition-colors text-xl'
             >
-              Profile
+              Create
             </Link>
-          )}
+
+            {isAuthenticated && (
+              <Link
+                to='/profile'
+                className='[&.active]:text-foreground text-muted-foreground hover:text-foreground transition-colors text-xl'
+              >
+                Profile
+              </Link>
+            )}
+          </div>
         </div>
       </header>
 

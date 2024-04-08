@@ -7,11 +7,10 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+// import { Button } from '@/components/ui/button';
 
 export const Route = createFileRoute('/_authenticated/')({
   component: HomePage,
@@ -73,10 +72,6 @@ function HomePage() {
                   style={{ aspectRatio: '200/200', objectFit: 'cover' }}
                 />
               </CardContent>
-              <CardFooter className='flex justify-between p-4'>
-                <Button>Add to Wishlist</Button>
-                <Button>Buy Now</Button>
-              </CardFooter>
             </Card>
           ))}
         </div>
