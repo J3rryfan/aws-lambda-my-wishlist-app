@@ -30,6 +30,7 @@ export function API({ stack }: StackContext) {
         function: { handler: 'packages/functions/src/lambda.handler' },
       },
       'GET /blogs': 'packages/functions/src/blogs.handler',
+      'GET /blogs/:id': 'packages/functions/src/blogs.handler',
       'POST /blogs': 'packages/functions/src/blogs.handler',
       'POST /signed-url': {
         function: {
@@ -39,12 +40,12 @@ export function API({ stack }: StackContext) {
           handler: 'packages/functions/src/s3.handler',
         },
       },
-      'GET /csharp': {
-        function: {
-          handler: 'packages/CSharp/WishlistApp',
-          runtime: 'container',
-        },
-      },
+      // 'GET /csharp': {
+      //   function: {
+      //     handler: 'packages/CSharp/WishlistApp',
+      //     runtime: 'container',
+      //   },
+      // },
     },
   });
 

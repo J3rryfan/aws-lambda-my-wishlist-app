@@ -2,6 +2,7 @@ import { createFileRoute, Outlet } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
 
 import { useKindeAuth } from '@kinde-oss/kinde-auth-react';
+import { LoadingSkeleton } from '@/components/loading-skeleton';
 
 export function Login() {
   const { login, register } = useKindeAuth();
@@ -34,7 +35,7 @@ export function Login() {
 const Component = () => {
   const { isAuthenticated, isLoading } = useKindeAuth();
   if (isLoading) {
-    return <div></div>;
+    return <LoadingSkeleton />;
   }
   if (!isAuthenticated) {
     return <Login />;

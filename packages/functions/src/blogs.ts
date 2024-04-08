@@ -33,4 +33,15 @@ app.post('/blogs', authMiddleware, async (c) => {
   return c.json({ newBlog });
 });
 
+// get a single blog
+app.get('/blogs/:id', authMiddleware, async (c) => {
+  const id = +c.req.param('id');
+  const userId = c.var.userId;
+
+  const singleBlog = await db
+    .select()
+    .from(blogsTable)
+    .where(eq(blogsTable.id, id));
+});
+
 export const handler = handle(app);
